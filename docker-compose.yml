@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  app:
+    build: .
+    ports:
+      - '80:3002'
+    depends_on:
+      - 'mysql'
+    restart: on-failure
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: mysql
+      MYSQL_DB: reviews
+    command: sh -c 'npm start'
+
+  mysql:
+    build: ./database
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
