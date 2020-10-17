@@ -8,6 +8,7 @@
 2. Data Schema SQL
 3. Data Schema noSQL
 4. Setup Postgres On New Client
+5. Setup Arango On New Client
 
 ## CRUD/API Usage
 
@@ -422,10 +423,10 @@
 ### Arango Schema | Document Orientated
 > https://drive.google.com/file/d/1W09TmoVWVerEpRorfIEbg4AZ5j-DF_MA/view?usp=sharing
 
-### 4. Set up Postgres on new Machine
+### 4. Set up Postgres on a new Machine
 > Please run the commands in the following order!
 
-> Note the 3rd command is not verified.
+> Note the 3rd command path is not verified. (All CSV Will be in root folder of the project)
 
  * 1 In Bash/Zsh | `npm run init-postgres`
  * 2 In Bash/Zsh | `npm run start-postgres`
@@ -433,3 +434,13 @@
  * 4 In Bash/Zsh | `npm run create-csv-restaurant`
  * 5 In Bash/Zsh | `npm run create-csv-users`
  * 6 In Bash/Zsh | `npm run create-csv-reviews`
+
+ ### 5. Set up Postgres on a new Machine
+ > Please run the commands in the following order!
+
+ >note the 3rd command path is not verified (All CSV Will be in root folder of the project)
+
+ * 1 In Bash/Zsh | `npm run create-csv-avocado-user`
+ * 2 In Bash/Zsh | `npm run create-csv-avocado-res`
+ * 3 In Bash/Zsh | `arangoimport --file "AvocadoUser.csv" --type csv --collection "colName" --server.database dbName`
+ * 4 In Bash/Zsh | `arangoimport --file "AvocadoRestaurant.csv" --type csv --collection "colName" --server.database dbName`

@@ -4,6 +4,7 @@ const csvWriter = require('csv-write-stream');
 let writer = csvWriter();
 const faker = require('faker');
 let restaurant_id = 1;
+let file_id = 1;
 
 //Helper Functions
 
@@ -11,7 +12,7 @@ const randomBool = (random = Math.floor(Math.random() * 10)) => random % 2 === 0
 
 const generateReviews = () => {
   let result = [];
-  for (let i = 0; i < (13 + Math.floor(Math.random() * 47)); i++) {
+  for (let i = 0; i < (1 + Math.floor(Math.random() * 4)); i++) {
     let date = new Date();
     let obj = {};
     obj.user_id = (1 + Math.floor(Math.random() * 9999));
@@ -32,34 +33,47 @@ const generateRandomArr = () => {
   return [randomBool(), randomBool(), randomBool(), randomBool()];
 }
 
-const createRestaurantReviewDocument = () => {
-  writer.pipe(fs.createWriteStream('AvocadoRestaurant.csv'));
-  for (var i = 0; i < 10000; i++) {
-    const five = Math.random();
-    const four = Math.random() * (1 - five);
-    const three = Math.random() * (1 - (five + four));
-    const two = Math.random() * (1 - (five + four + three));
-    const one = Math.random() * (1 - (five + four + three + two));
-    writer.write({
-      _key: restaurant_id,
-      restaurant_name: faker.company.companyName(),
-      number_of_reviews: Math.floor(Math.random() * 400),
-      food_overall_rating: (Math.random() * 5).toFixed(2),
-      service_overall_rating: (Math.random() * 5).toFixed(2),
-      ambiance_overall_rating: (Math.random() * 5).toFixed(2),
-      overall_rating: (Math.random() * 5).toFixed(2),
-      noise_level: faker.random.arrayElement(['do not recall', 'quiet', 'moderate', 'energetic']),
-      one_star_percent: one.toFixed(2),
-      two_star_percent: two.toFixed(2),
-      three_star_percent: three.toFixed(2),
-      four_star_percent: four.toFixed(2),
-      five_star_percent: five.toFixed(2),
-      loved_for_array: generateRandomArr(),
-      filters_array: generateRandomArr(),
-      reviews: generateReviews()
-    });
-    restaurant_id++;
+const main = async () => {
+  const createRestaurantReviewDocument = async () => {
+    writer.pipe(fs.createWriteStream(`AvocadoRestaurant${file_id}.csv`));
+    for (var i = 0; i < 500000; i++) {
+      if (i === 1000 || i === 10000 || i === 99999) {
+        console.log(`Seeded ${i} Documents ::: TOTAL > ${restaurant_id}`)
+      }
+      const five = Math.random();
+      const four = Math.random() * (1 - five);
+      const three = Math.random() * (1 - (five + four));
+      const two = Math.random() * (1 - (five + four + three));
+      const one = Math.random() * (1 - (five + four + three + two));
+      writer.write({
+        _key: restaurant_id,
+        restaurant_name: faker.company.companyName(),
+        number_of_reviews: Math.floor(Math.random() * 400),
+        food_overall_rating: (Math.random() * 5).toFixed(2),
+        service_overall_rating: (Math.random() * 5).toFixed(2),
+        ambiance_overall_rating: (Math.random() * 5).toFixed(2),
+        overall_rating: (Math.random() * 5).toFixed(2),
+        noise_level: faker.random.arrayElement(['do not recall', 'quiet', 'moderate', 'energetic']),
+        one_star_percent: one.toFixed(2),
+        two_star_percent: two.toFixed(2),
+        three_star_percent: three.toFixed(2),
+        four_star_percent: four.toFixed(2),
+        five_star_percent: five.toFixed(2),
+        loved_for_array: generateRandomArr(),
+        filters_array: generateRandomArr(),
+        reviews: generateReviews()
+      });
+      restaurant_id++;
+    }
+  }
+  await createRestaurantReviewDocument();
+  if (restaurant_id <= 1000000) {
+    setTimeout(() => {
+      file_id++;
+      main();
+    }, 10000);
   }
 }
 
-createRestaurantReviewDocument();
+main();
+

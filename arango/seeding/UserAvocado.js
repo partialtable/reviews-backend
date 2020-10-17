@@ -15,7 +15,7 @@ const generateRandomPhotoUrl = () => {
 //Create CSV
 const createUserDocumentCSV = () => {
   writer.pipe(fs.createWriteStream('AvocadoUser.csv'));
-  for (var i = 0; i < 10000; i++) {
+  for (var i = 0; i < 500000; i++) {
     if ( i === 50 || i === 500000 || i === 1000000 || i === 5000000 ) {
       console.log(`Seeded ${i} Records`);
     }
